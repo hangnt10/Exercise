@@ -94,24 +94,29 @@ public class ImportEcxel {
                 int index = 11;
                 while (index < tc.getLastRowNum()) {
                     Step step = new Step();
-                    if(tc.getRow(index).getCell(0) != null){
-                        stt = tc.getRow(index).getCell(0).toString().split("\\.")[0].replaceAll("\\,","");
-                        step.setOrder(stt);
-                        if (tc.getRow(index).getCell(1) != null) {
-                            client = tc.getRow(index).getCell(1).toString();
-                            step.setRolePlay(client);
-                            if (tc.getRow(index).getCell(2) != null) {
-                                action = tc.getRow(index).getCell(2).toString();
-                                step.setAction(action);
-                                if (tc.getRow(index).getCell(3) != null) {
-                                    parameter = tc.getRow(index).getCell(3).toString();
-                                    step.setParameter(parameter.split("\\.")[0].replaceAll("\\,",""));
+                    try{
+                        if(tc.getRow(index).getCell(0) != null){
+                            stt = tc.getRow(index).getCell(0).toString().split("\\.")[0].replaceAll("\\,","");
+                            step.setOrder(stt);
+                            if (tc.getRow(index).getCell(1) != null) {
+                                client = tc.getRow(index).getCell(1).toString();
+                                step.setRolePlay(client);
+                                if (tc.getRow(index).getCell(2) != null) {
+                                    action = tc.getRow(index).getCell(2).toString();
+                                    step.setAction(action);
+                                    if (tc.getRow(index).getCell(3) != null) {
+                                        parameter = tc.getRow(index).getCell(3).toString();
+                                        step.setParameter(parameter.split("\\.")[0].replaceAll("\\,",""));
+                                    }
+                                    steps.add(step);
                                 }
-                                steps.add(step);
                             }
                         }
+                        index++;
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
                     }
-                    index++;
+
                 }
                 testcase.setSteps(steps);
                 testcases.add(testcase);
