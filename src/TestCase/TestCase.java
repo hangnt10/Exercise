@@ -144,11 +144,10 @@ public class TestCase {
         return testScripts;
     }
 
-    public void writer(String content) throws Exception {
-        String[] tcPackage = {"CheckChannel", "CheckCalculateGold"};
-        FileWriter fw = new FileWriter("src/TestScript/" + tcPackage[1] + "/" + this.getName() + ".java");
+    public void writer(String content, String packageName) throws Exception {
+        FileWriter fw = new FileWriter("src/TestScript/" +packageName + "/" + this.getName() + ".java");
 
-        fw.write("package TestScript." + tcPackage[1] + ";\n");
+        fw.write("package TestScript." +packageName + ";\n");
         String fileHeaderName = "src/TestScript/header";
         File header = new File(fileHeaderName);
         FileReader fr1 = new FileReader(header);

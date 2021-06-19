@@ -27,8 +27,8 @@ public class Main {
 //        Bet bet = new Bet(client1);
 //        bet.clickBet();
 //        bet.clickChannel("manila");
-        String[] testcase = new String[]{"TestCase_ChiaKenh.xlsx", "TestCase_TinhTien.xlsx"};
-        ImportEcxel excelFile = new ImportEcxel(testcase[1]);
+        String[] testcase = new String[]{"CheckChannel", "CheckCalculateGold"};
+        ImportEcxel excelFile = new ImportEcxel(testcase[0]+".xlsx");
         ArrayList<General> general = excelFile.getGeneral();
         ArrayList<TestCase> tc = excelFile.getTestCase();
         for (TestCase item : tc) {
@@ -37,7 +37,7 @@ public class Main {
 //            for (Step s : item.getSteps())
 //                h += item.generateTestScript(s);
             h+= item.generateAllScript(item.getSteps()) ;
-            item.writer(h);
+            item.writer(h, testcase[0]);
         }
 
         // run test
