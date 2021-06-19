@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.ArrayList;
+import java.util.*;
 
 public class TestCase {
     private String name;
@@ -132,21 +132,23 @@ public class TestCase {
         System.out.println(Client1);
         testScripts = testScripts.concat(generateCheatScript(steps.get(0)));
         testScripts = testScripts.concat("     Client " + Client1 + " = new Client(\"" + Client1 + "\");\n");
+        ArrayList<String> clients = new ArrayList<String>();
+        clients.add(Client1);
         for (int i = 1; i < steps.size(); i++) {
-            if (steps.get(i).getRolePlay().toString() != Client1) {
+            if (!clients.contains(steps.get(i).getRolePlay().toString())) {
                 testScripts = testScripts.concat("     Client " + steps.get(i).getRolePlay().toString() + " = new Client(\"" + steps.get(i).getRolePlay().toString() + "\");\n");
-//                Client1 = steps.get(i).getRolePlay().toString();
+               clients.add(steps.get(i).getRolePlay().toString());
             }
             testScripts = testScripts.concat(generateTestScript(steps.get(i)));
-
         }
         return testScripts;
     }
 
     public void writer(String content) throws Exception {
-        FileWriter fw = new FileWriter("src/TestScript/CheckChannel/" + this.getName() + ".java");
+        String[] tcPackage = {"CheckChannel", "CheckCalculateGold"};
+        FileWriter fw = new FileWriter("src/TestScript/" + tcPackage[1] + "/" + this.getName() + ".java");
 
-        fw.write("package TestScript.CheckChannel;\n");
+        fw.write("package TestScript." + tcPackage[1] + ";\n");
         String fileHeaderName = "src/TestScript/header";
         File header = new File(fileHeaderName);
         FileReader fr1 = new FileReader(header);

@@ -167,6 +167,7 @@ public class Client {
     public void closeGame() throws Exception {
 //        window.wait(imgPath + "back.png", Double.POSITIVE_INFINITY);
 //        window.wait(imgPath + "back.png");
+        Thread.sleep(1000);
         Runtime.getRuntime().exec(getBack());
         window.wait(imgPath + "closeGame.png", Double.POSITIVE_INFINITY);
         window.click(imgPath + "closeGame.png");

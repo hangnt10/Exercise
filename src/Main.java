@@ -27,7 +27,8 @@ public class Main {
 //        Bet bet = new Bet(client1);
 //        bet.clickBet();
 //        bet.clickChannel("manila");
-        ImportEcxel excelFile = new ImportEcxel("TestCase_ChiaKenh.xlsx");
+        String[] testcase = new String[]{"TestCase_ChiaKenh.xlsx", "TestCase_TinhTien.xlsx"};
+        ImportEcxel excelFile = new ImportEcxel(testcase[1]);
         ArrayList<General> general = excelFile.getGeneral();
         ArrayList<TestCase> tc = excelFile.getTestCase();
         for (TestCase item : tc) {

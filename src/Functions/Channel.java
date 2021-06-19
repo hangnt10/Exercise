@@ -39,6 +39,7 @@ public class Channel {
         } else{
             this.client.window.wait(imgPath + "back.png", Double.POSITIVE_INFINITY);
             this.client.window.click(imgPath + "back.png");
+            clickBet();
         }
     }
 
