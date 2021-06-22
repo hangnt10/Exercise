@@ -107,7 +107,6 @@ public class AdbLog {
 
         return null;
     }
-
 }
 
 

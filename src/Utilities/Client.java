@@ -47,6 +47,7 @@ public class Client {
         this.title = title;
         this.app = new App(title);
         if (app.window(0) == null) return;
+        app.focus();
         Region window1 = app.window(0);
         this.window = new Region((window1.x), window1.y + topBarHeight, window1.w - topBarHeight, window1.h - topBarHeight);
         this.width = window.w;
@@ -98,6 +99,7 @@ public class Client {
     }
 
     public boolean refreshLog() throws Exception {
+        app.focus();
         window.click(imgPath + "cheatIcon.png");
         Thread.sleep(100);
         return true;
@@ -142,6 +144,7 @@ public class Client {
     }
 
     public int getUserGold() throws Exception {
+        Thread.sleep(200);
         int gold = 0;
         gold = adbLog.getUserInfo().getInt("gold");
         return gold;
@@ -169,6 +172,7 @@ public class Client {
                 Thread.sleep(5000);
                 Runtime.getRuntime().exec("adb pull /sdcard/" + bugName + ".png " + out);
             }
+            // adb pull /sdcard/bug.png C:\Users\LAP60536_Local\Downloads\Exercise-main\Exercise-main\Bugs
         } catch (IOException e) {
             e.printStackTrace();
             //adb pull /sdcard/bug.png C:\\Users\\LAP60536_Local\\Downloads\\Exercise-main\\Exercise-main\\Bugs
@@ -198,13 +202,17 @@ public class Client {
     }
 
     public void openGame() throws Exception {
+
         this.app.focus();
         window.wait(imgPath + "luckyNineIcon.png", Double.POSITIVE_INFINITY);
         window.click(imgPath + "luckyNineIcon.png");
+        Thread.sleep(10000);
     }
 
     public void login(String id) throws Exception {
+//        Thread.sleep(10000);
         window.wait(imgPath + "loginOptions.png", Double.POSITIVE_INFINITY);
+
         Thread.sleep(2000);
         this.click("btn_ZID");
         Thread.sleep(100);

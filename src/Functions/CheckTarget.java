@@ -37,6 +37,7 @@ public class CheckTarget {
 //    }
 
     public String printResult(int EXPECTED_GOLD) throws Exception {
+        Thread.sleep(10000);
         String result = "";
         if (!client.checkTarget.checkExpectedGold(EXPECTED_GOLD)) {
             result = "fail";
@@ -58,8 +59,5 @@ public class CheckTarget {
         return result;
     }
 
-    public void printResult () throws Exception{
-
-    }
 
 }

@@ -24,7 +24,7 @@ public class ReportToWord {
             throws IOException, InvalidFormatException, InterruptedException {
         XWPFDocument doc = new XWPFDocument();
         XWPFParagraph para = doc.createParagraph();
-        para.setAlignment(ParagraphAlignment.BOTH);
+        para.setAlignment(ParagraphAlignment.LEFT);
         XWPFRun run = para.createRun();
         BufferedImage bimg = ImageIO.read(imageFile1);
         int width = bimg.getWidth();
@@ -37,12 +37,12 @@ public class ReportToWord {
         }
         String imgFile = imageFile1.getName();
         int imgFormat = getImageFormat(imgFile);
-        String p1 = "Sample Paragraph Post. This is a sample Paragraph post. Sample Paragraph text is being cut and pasted again and again. This is a sample Paragraph post. peru-duellmans-poison-dart-frog.";
+        String p1 = "Test Case Report";
         run.setText(p1);
         run.addBreak();
         run.addPicture(new FileInputStream(imageFile1), imgFormat, imgFile, Units.toEMU(width), Units.toEMU(height));
         // page break
-        FileOutputStream out = new FileOutputStream("Report/word_images.docx");
+        FileOutputStream out = new FileOutputStream(client.title + "Report/word_images.docx");
         doc.write(out);
         out.close();
         doc.close();

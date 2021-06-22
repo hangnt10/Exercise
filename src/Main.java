@@ -1,8 +1,12 @@
+import Excel.ImportEcxel;
 import Functions.CheckTarget;
+import TestCase.General;
+import TestCase.TestCase;
 import Utilities.*;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 
 public class Main {
@@ -23,7 +27,7 @@ public class Main {
 //        bet.clickBet();
 //        bet.clickChannel("manila");
 
-        /* generate script
+//         generate script
         String[] testcase = new String[]{"CheckChannel", "CheckCalculateGold"};
         ImportEcxel excelFile = new ImportEcxel(testcase[1]+".xlsx");
         ArrayList<General> general = excelFile.getGeneral();
@@ -36,38 +40,42 @@ public class Main {
             h+= item.generateAllScript(item.getSteps()) ;
             item.writer(h, testcase[1]);
         }
-        */
+
 
         // run test
 //        ZPCheat cheat = new ZPCheat(); // khởi tạo tool cheat
 //        ZPCheat.cheatData(31); // nhận tham số là test case id cần cheat
 //
 
-        Client client1 = new Client("Client1");
-        System.out.println("Client 1 Infor: \n" + client1.getUserInfo().toString());
-
-        System.out.println("gold: " + client1.getUserGold());
+//        Client client1 = new Client("Client1");
+//        System.out.println("Client 1 Infor: \n" + client1.getUserInfo().toString());
+//
+//        System.out.println("gold: " + client1.getUserGold());
+//        client1.checkTarget.printResult(10);
 
 //        Method methodG = CheckTarget.class.getDeclaredMethod("checkExpectedGold", int.class);
 //        methodG.setAccessible(true);
 //        methodG.invoke(client1.checkTarget, 10);
 
-        final int EXPECTED_GOLD = 10;
-        if (!client1.checkTarget.checkExpectedGold(EXPECTED_GOLD)) {
-            String bugName = "bug";
-            File out = new File("C:\\Users\\LAP60536_Local\\Downloads\\Exercise-main\\Exercise-main\\Bugs\\" + bugName + ".png");
-            if (out.exists())
-                out.delete();
+        //in bug vao word
+//        final int EXPECTED_GOLD = 10;
+//        if (!client1.checkTarget.checkExpectedGold(EXPECTED_GOLD)) {
+//            String bugName = "bug";
+//            File out = new File("C:\\Users\\LAP60536_Local\\Downloads\\Exercise-main\\Exercise-main\\Bugs\\" + bugName + ".png");
+//            if (out.exists())
+//                out.delete();
+//
+//            client1.capScreen(bugName);
+//            if (out.exists()) {
+//                client1.wordReport.addImagesToWordDocument(out);
+//            } else {
+//                System.out.println(out.getAbsolutePath() + " is not existed!");
+//            }
+//        } else {
+//            System.out.println("Reach the expected gold");
+//        }
 
-            client1.capScreen(bugName);
-            if (out.exists()) {
-                client1.wordReport.addImagesToWordDocument(out);
-            } else {
-                System.out.println(out.getAbsolutePath() + " is not existed!");
-            }
-        } else {
-            System.out.println("Reach the expected gold");
-        }
+
 //        Thread.sleep(2000);
 //        System.out.println(client1.adbLog.getAdbLog().toString());
 

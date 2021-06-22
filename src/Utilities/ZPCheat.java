@@ -30,6 +30,8 @@ public class ZPCheat {
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[text()='" + testCaseId + "']/parent::*/td/span[@id='run-button']")));
         driver.findElement(By.xpath("//td[text()='" + testCaseId + "']/parent::*/td/span[@id='upload-button']")).click();
 
+        Thread.sleep(2000);
+        driver.close();
     }
 
     public static void closeWeb() throws Exception{

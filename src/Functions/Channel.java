@@ -29,18 +29,22 @@ public class Channel {
     }
 
     public void clickChannel(String channel) throws Exception{
+        this.client.app.focus();
         this.client.window.wait(imgPath + channel+".png", Double.POSITIVE_INFINITY);
         this.client.window.click(imgPath + channel+".png");
-        if(!(this.client.window.exists(imgPath +"error_channel.png", 3.0) == null)){
+        Thread.sleep(100);
+        if(!(this.client.window.exists(imgPath +"error_channel.png", 2.0) == null)){
             this.client.window.wait(3.0);
             this.client.window.click(imgPath + "error_cancel.png");
-        }else if(!(this.client.window.exists(imgPath + "error_channel_2",3.0) == null)){
+        }else if(!(this.client.window.exists(imgPath + "error_channel_2",2.0) == null)){
             this.client.window.click(imgPath + "btn_ok.png");
-        } else{
-            this.client.window.wait(imgPath + "back.png", Double.POSITIVE_INFINITY);
-            this.client.window.click(imgPath + "back.png");
-            clickBet();
         }
+//        else{
+//            this.client.window.wait(imgPath + "back.png", Double.POSITIVE_INFINITY);
+//            this.client.window.click(imgPath + "back.png");
+//            Thread.sleep(100);
+//            clickBet();
+//        }
     }
 
     public String checkResult() throws Exception{
