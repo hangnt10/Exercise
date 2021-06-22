@@ -1,13 +1,8 @@
-import Excel.ImportEcxel;
-import Functions.Channel;
-import TestCase.General;
-import TestCase.TestCase;
-import TestCase.Step;
+import Functions.CheckTarget;
 import Utilities.*;
-import org.sikuli.android.ADBTest;
 
+import java.io.File;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 
 public class Main {
@@ -27,8 +22,10 @@ public class Main {
 //        Bet bet = new Bet(client1);
 //        bet.clickBet();
 //        bet.clickChannel("manila");
+
+        /* generate script
         String[] testcase = new String[]{"CheckChannel", "CheckCalculateGold"};
-        ImportEcxel excelFile = new ImportEcxel(testcase[0]+".xlsx");
+        ImportEcxel excelFile = new ImportEcxel(testcase[1]+".xlsx");
         ArrayList<General> general = excelFile.getGeneral();
         ArrayList<TestCase> tc = excelFile.getTestCase();
         for (TestCase item : tc) {
@@ -37,13 +34,15 @@ public class Main {
 //            for (Step s : item.getSteps())
 //                h += item.generateTestScript(s);
             h+= item.generateAllScript(item.getSteps()) ;
-            item.writer(h, testcase[0]);
+            item.writer(h, testcase[1]);
         }
+        */
 
         // run test
 //        ZPCheat cheat = new ZPCheat(); // khởi tạo tool cheat
 //        ZPCheat.cheatData(31); // nhận tham số là test case id cần cheat
 //
+
         Client client1 = new Client("Client1");
         System.out.println("Client 1 Infor: \n" + client1.getUserInfo().toString());
 
@@ -53,17 +52,29 @@ public class Main {
 //        methodG.setAccessible(true);
 //        methodG.invoke(client1.checkTarget, 10);
 
-        if(client1.checkTarget.checkExpectedGold(10) == false){
+        final int EXPECTED_GOLD = 10;
+        if (!client1.checkTarget.checkExpectedGold(EXPECTED_GOLD)) {
             String bugName = "bug";
+            File out = new File("C:\\Users\\LAP60536_Local\\Downloads\\Exercise-main\\Exercise-main\\Bugs\\" + bugName + ".png");
+            if (out.exists())
+                out.delete();
+
             client1.capScreen(bugName);
-            Thread.sleep(1000);
-            String out = "C:\\Users\\LAP60536_Local\\Downloads\\Exercise-main\\Exercise-main\\Bugs\\" + bugName + ".png";
-            client1.wordReport.addImagesToWordDocument(new File(out));
+            if (out.exists()) {
+                client1.wordReport.addImagesToWordDocument(out);
+            } else {
+                System.out.println(out.getAbsolutePath() + " is not existed!");
+            }
+        } else {
+            System.out.println("Reach the expected gold");
         }
 //        Thread.sleep(2000);
 //        System.out.println(client1.adbLog.getAdbLog().toString());
 
-//        Client client1 = new Client("Client1");
+
+//        Client client2 = new Client("Client2");
+//        System.out.println("Client 2 Infor: \n" + client2.getUserInfo().toString());
+////
 //        Method method = Client.class.getDeclaredMethod("openGame", null);
 //        method.setAccessible(true);
 //        method.invoke(client1, null);
@@ -71,6 +82,8 @@ public class Main {
 //        Method method1 = Client.class.getDeclaredMethod("login", String.class);
 //        method1.setAccessible(true);
 //        method1.invoke(client1, "100");
+//
+//        System.out.println(client1.getUserInfo().toString());
 //
 //        Method method2 = Bet.class.getDeclaredMethod("clickBet", null);
 //        method2.setAccessible(true);
