@@ -13,7 +13,7 @@ public class CheckTarget {
     }
 
     public boolean checkExpectedGold(int gold) throws Exception{
-        if(((int) this.client.getUserGold()) == gold){
+        if(this.client.getUserGold() == gold){
             System.out.println("True");
             return true;
         }
@@ -21,17 +21,39 @@ public class CheckTarget {
         return false;
     }
 
-    public String printResult(int gold) throws Exception{
-        String result = " ";
-        if(this.checkExpectedGold(gold) == false){
+//    public String printResult(int gold) throws Exception{
+//        String result = " ";
+//        if(!this.checkExpectedGold(gold)){
+//            result = "fail";
+//            String bugName = "bug";
+////            this.client.capScreen(bugName);
+//            Thread.sleep(1000);
+//            String out = "C:\\Users\\LAP60536_Local\\Downloads\\Exercise-main\\Exercise-main\\Bugs\\" + bugName + ".png";
+//            this.client.wordReport.addImagesToWordDocument(new File(out));
+//        }else{
+//            result = "pass";
+//        }
+//        return result;
+//    }
+
+    public String printResult(int EXPECTED_GOLD) throws Exception {
+        String result = "";
+        if (!client.checkTarget.checkExpectedGold(EXPECTED_GOLD)) {
             result = "fail";
-            String bugName = "bug";
-            this.client.capScreen(bugName);
-            Thread.sleep(1000);
-            String out = "C:\\Users\\LAP60536_Local\\Downloads\\Exercise-main\\Exercise-main\\Bugs\\" + bugName + ".png";
-            this.client.wordReport.addImagesToWordDocument(new File(out));
-        }else{
+            String bugName = this.client.title + "BUG_Gold";
+            File out = new File("C:\\Users\\LAP60536_Local\\Downloads\\Exercise-main\\Exercise-main\\Bugs\\" + bugName + ".png");
+            if (out.exists())
+                out.delete();
+
+            client.capScreen(bugName);
+            if (out.exists()) {
+                client.wordReport.addImagesToWordDocument(out);
+            } else {
+                System.out.println(out.getAbsolutePath() + " is not existed!");
+            }
+        } else {
             result = "pass";
+            System.out.println("Reach the expected gold");
         }
         return result;
     }
