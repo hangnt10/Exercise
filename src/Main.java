@@ -43,6 +43,25 @@ public class Main {
         // run test
 //        ZPCheat cheat = new ZPCheat(); // khởi tạo tool cheat
 //        ZPCheat.cheatData(31); // nhận tham số là test case id cần cheat
+//
+        Client client1 = new Client("Client1");
+        System.out.println("Client 1 Infor: \n" + client1.getUserInfo().toString());
+
+        System.out.println("gold: " + client1.getUserGold());
+
+//        Method methodG = CheckTarget.class.getDeclaredMethod("checkExpectedGold", int.class);
+//        methodG.setAccessible(true);
+//        methodG.invoke(client1.checkTarget, 10);
+
+        if(client1.checkTarget.checkExpectedGold(10) == false){
+            String bugName = "bug";
+            client1.capScreen(bugName);
+            Thread.sleep(1000);
+            String out = "C:\\Users\\LAP60536_Local\\Downloads\\Exercise-main\\Exercise-main\\Bugs\\" + bugName + ".png";
+            client1.wordReport.addImagesToWordDocument(new File(out));
+        }
+//        Thread.sleep(2000);
+//        System.out.println(client1.adbLog.getAdbLog().toString());
 
 //        Client client1 = new Client("Client1");
 //        Method method = Client.class.getDeclaredMethod("openGame", null);

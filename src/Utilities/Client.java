@@ -65,6 +65,8 @@ public class Client {
         adbLog = new AdbLog(adbAddress);
         this.channel = new Channel(this);
         this.isGood = new HiritOrGood(this);
+        this.checkTarget = new CheckTarget(this);
+        this.wordReport = new ReportToWord(this);
     }
 
 
@@ -126,6 +128,43 @@ public class Client {
         return positionLog;
     }
 
+    public int getUserGold() throws Exception {
+        int gold = 0;
+        gold = adbLog.getUserInfo().getInt("gold");
+        return gold;
+    }
+
+//    public boolean checkTarget(int targetGold) throws Exception{
+//        if(this.getUserGold() != targetGold){
+//            return false;
+//        }
+//        return true;
+//    }
+
+    public void capScreen(String bugName) throws Exception {
+        try {
+            Runtime.getRuntime().exec("adb shell screencap /sdcard/" + bugName + ".png");
+
+            String out = "C:\\Users\\LAP60536_Local\\Downloads\\Exercise-main\\Exercise-main\\Bugs\\" + bugName + ".png";
+
+            File f = new File(out);
+            if (f.exists())
+                f.delete();
+
+            while (!f.exists()) {
+                Thread.sleep(10);
+                System.out.println("Waiting");
+                Runtime.getRuntime().exec("adb pull /sdcard/" + bugName + ".png " + out);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+
+            //adb pull /sdcard/bug.png C:\\Users\\LAP60536_Local\\Downloads\\Exercise-main\\Exercise-main\\Bugs
+        }
+
+    }
 
     public void click(ArrayList<String> filter) throws Exception {
         app.focus();
