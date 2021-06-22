@@ -2,12 +2,15 @@ package Utilities;
 
 import Functions.Channel;
 import Functions.HiritOrGood;
+import Functions.CheckTarget;
+import Word.ReportToWord;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.sikuli.script.*;
 import org.sikuli.util.Run;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -15,6 +18,10 @@ import java.util.ArrayList;
 public class Client {
     public Channel channel;
     public HiritOrGood isGood;
+    public CheckTarget checkTarget;
+    public ReportToWord wordReport;
+
+
     public String title;
     public float width;
     public float height;
@@ -23,7 +30,7 @@ public class Client {
     public Region window;
 
     public AdbLog adbLog;
-
+    //    public String adbAddress;
     public static final String imgPath = System.getProperty("user.dir") + "\\Image\\";
     public static JSONObject config = Json.read(System.getProperty("user.dir") + "\\Config\\config.json");
 
@@ -46,21 +53,27 @@ public class Client {
         this.height = window.h;
         this.window.highlight(1);
 
-        String adbAddress = config.getJSONObject(title).getString("adbAddress");
-        // adbAddress: khong co dinh
-        String[] commands = new String[]{"adb", "-s", adbAddress, "logcat", "-t", "50000"};
-        Process process = null;
-        if (process != Runtime.getRuntime().exec(commands) && (title == "Client1")) {
-            adbAddress = "127.0.0.1:5555";
-            commands = new String[]{"adb", "-s", adbAddress, "logcat", "-t", "50000"};
-            process = Runtime.getRuntime().exec(commands);
-        } else if (process != Runtime.getRuntime().exec(commands) && (title == "Client2")) {
-            adbAddress = "127.0.0.1:5557";
-            commands = new String[]{"adb", "-s", adbAddress, "logcat", "-t", "50000"};
-            process = Runtime.getRuntime().exec(commands);
-        }else{
-            process = Runtime.getRuntime().exec(commands);
-        }
+        JSONObject adbObject = config.getJSONObject(title);
+        if (adbObject == null)// EM CHAY DI // co ve oki rui anh =)) .. anh co dang noi khong the? Anh dannoi ma thoi dneo  cehmay   kiem tra lai tai nghe, k nghe th atyho i thoi no chay dc la oke roi em. ANh out nhe.
+//            tu tu anh oi em check not cai nay dakook
+            // khong chay noi,
+            return;
+
+        String adbAddress = adbObject.getString("adbAddress");// adbAddress: khong co dinh
+        final String[] POSSIBLE_ADB_ADDRESSES = new String[]{adbAddress, "127.0.0.1:5555", "127.0.0.1:5557"};
+        for (String ADB_ADDRESS : POSSIBLE_ADB_ADDRESSES)
+            if (ADB_ADDRESS != null) {
+                String[] command = new String[]{"adb", "-s", ADB_ADDRESS, "logcat", "-t", "50000"};
+                Process p = Runtime.getRuntime().exec(command);
+
+                if (p != null) {
+                    System.out.println("Executed " + command + " successfully");
+                    break;
+                } else {
+                    System.out.println("Executed " + command + " fail");
+                }
+
+            }
 
         adbLog = new AdbLog(adbAddress);
         this.channel = new Channel(this);
@@ -142,28 +155,24 @@ public class Client {
 //    }
 
     public void capScreen(String bugName) throws Exception {
-        try {
-            Runtime.getRuntime().exec("adb shell screencap /sdcard/" + bugName + ".png");
 
+//        return new Screen().capture(this.window);
+
+        try {
+            String captureCommand = "adb shell screencap /sdcard/" + bugName + ".png";
+            Runtime.getRuntime().exec(captureCommand);
+            System.out.println("Requested to execute [" + captureCommand + "]");
             String out = "C:\\Users\\LAP60536_Local\\Downloads\\Exercise-main\\Exercise-main\\Bugs\\" + bugName + ".png";
 
-            File f = new File(out);
-            if (f.exists())
-                f.delete();
-
-            while (!f.exists()) {
-                Thread.sleep(10);
-                System.out.println("Waiting");
+            while (!new File(out).exists()) {
+                System.out.println("Waiting for 5 seconds");
+                Thread.sleep(5000);
                 Runtime.getRuntime().exec("adb pull /sdcard/" + bugName + ".png " + out);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
-
-
             //adb pull /sdcard/bug.png C:\\Users\\LAP60536_Local\\Downloads\\Exercise-main\\Exercise-main\\Bugs
         }
-
     }
 
     public void click(ArrayList<String> filter) throws Exception {
@@ -196,9 +205,13 @@ public class Client {
 
     public void login(String id) throws Exception {
         window.wait(imgPath + "loginOptions.png", Double.POSITIVE_INFINITY);
+        Thread.sleep(2000);
         this.click("btn_ZID");
+        Thread.sleep(100);
         this.click("sprite_Name");
+        Thread.sleep(100);
         this.type(id);
+        Thread.sleep(100);
         this.click("btn_Ok");
         this.refreshLog();
     }
